@@ -8,18 +8,12 @@ const ROOT_URL =
  * @see {@link https://miniapps.farcaster.xyz/docs/guides/publishing}
  */
 export const minikitConfig = {
-  // accountAssociation: {
-  //   // Will be filled after deploying to Vercel and signing manifest
-  //   header: "",
-  //   payload: "",
-  //   signature: ""
-  // },
-  
   accountAssociation: {
-    header: "eyJmaWQiOjEzNzM2NTMsInR5cGUiOiJjdXN0b2R5Iiwia2V5IjoiMHgyNURmYjU3RjZENzMwRDBGOGJlZjIzNDg4NTJBZWRiNTI1OWZGNDlkIn0",
-    payload: "eyJkb21haW4iOiJtaW5pLWJhc2UtYXBwLXBlcnNvbmFsaXR5LnZlcmNlbC5hcHAifQ",
-    signature: "MHgxYWEzMTA0ZTgwMTY1ZTVjMWFlOTc2ZmJhZDQxZmY2MjlkMWQ2Y2I2YmU2M2E3ZWYxOWQ3NmZkYjYxZjgwYTdjNGZjNDkyYTNmNWJlZGRjMzFhYWZlY2ZjZTM5NzE2OGFjYWZjYzg4ZDI4NWQzZTIyNzJiODg4OTUyZjk5NzBhOTFi"
-  }
+    // Will be filled after deploying to Vercel and signing manifest
+    header: "",
+    payload: "",
+    signature: ""
+  },
 
   miniapp: {
     version: "1",
