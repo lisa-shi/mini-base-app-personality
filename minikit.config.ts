@@ -34,6 +34,6 @@ export const minikitConfig = {
   },
   "baseBuilder": {
     "allowedAddresses": ["0x5F3Af46348372BC4C01451e5a7CC7a90C4CEc226"]
-  },
+  }
 } as const;
 
