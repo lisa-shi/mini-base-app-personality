@@ -519,6 +519,18 @@
   }
 }
 
+.pickupLineLabel {
+  font-size: 14px;
+  font-weight: 700;
+  color: #f093fb;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-align: center;
+  margin-bottom: 8px;
+  position: relative;
+  z-index: 1;
+}
+
 .pickupLine p {
   font-size: 16px;
   font-style: italic;
@@ -528,6 +540,7 @@
   text-align: center;
   position: relative;
   z-index: 1;
+  font-weight: 500;
 }
 
 /* Onchain Status */
@@ -752,6 +765,11 @@
 
   .pickupLineIcon {
     font-size: 28px;
+  }
+
+  .pickupLineLabel {
+    font-size: 12px;
+    letter-spacing: 0.5px;
   }
 
   .pickupLine p {

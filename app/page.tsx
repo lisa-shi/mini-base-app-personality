@@ -79,7 +79,7 @@ const personalityResults = {
       animalBestie: "A wise old turtle 🐢",
       nightmareFuel: "Losing your cold wallet seed phrase 😱"
     },
-    pickupLine: "Are you a Bitcoin maximalist? Because you're the only coin I want to HODL forever. I'm the original, and I'll always be your safe bet. 💰",
+    pickupLine: "I don't chase pumps, but for you? I'd HODL forever. 💰",
     emoji: "₿",
     gradient: "linear-gradient(135deg, #f7931a 0%, #ffa940 100%)",
   },
@@ -92,7 +92,7 @@ const personalityResults = {
       animalBestie: "A curious octopus 🐙",
       nightmareFuel: "Gas fees during a bull run 💸"
     },
-    pickupLine: "Let's make this relationship decentralized—no single point of failure. I'm versatile, and I can be anything you need me to be. We're proof of stake that love works! 💜",
+    pickupLine: "Are you gas fees? Because you take my breath away... but you're worth it. 💜",
     emoji: "⟠",
     gradient: "linear-gradient(135deg, #627eea 0%, #8c9eff 100%)",
   },
@@ -105,7 +105,7 @@ const personalityResults = {
       animalBestie: "A sleek cheetah 🐆",
       nightmareFuel: "Network congestion during a mint 🚦"
     },
-    pickupLine: "They say I'm too fast, but baby, I'll slow down for you. I'm fast, scalable, and ready to take you places at 65,000 TPS! Want to experience high-speed romance? 🚀",
+    pickupLine: "They say I'm fast... but I'll slow down for you. 65,000 TPS of pure romance. 🚀",
     emoji: "◎",
     gradient: "linear-gradient(135deg, #14f195 0%, #9945ff 100%)",
   },
@@ -118,7 +118,7 @@ const personalityResults = {
       animalBestie: "A loyal Shiba Inu 🐕",
       nightmareFuel: "People who don't get the joke 😅"
     },
-    pickupLine: "Much wow. Very cute. So date? I'm not just a meme—I'm the whole vibe! To the moon and back? No, to your heart! 🌙💕",
+    pickupLine: "Much wow. Very date. Such romance. To the moon? Nah, straight to your heart. 🌙",
     emoji: "Ð",
     gradient: "linear-gradient(135deg, #c2a633 0%, #f0d460 100%)",
   },
@@ -407,6 +407,7 @@ export default function Home() {
           {/* Pickup Line */}
           <div className={styles.pickupLine}>
             <div className={styles.pickupLineIcon}>💘</div>
+            <div className={styles.pickupLineLabel}>Pickup Line:</div>
             <p>{personality.pickupLine}</p>
           </div>
           
