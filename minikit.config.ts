@@ -36,7 +36,14 @@ export const minikitConfig = {
   },
   baseBuilder: {
     allowedAddresses: ["0x5F3Af46348372BC4C01451e5a7CC7a90C4CEc226","0xc4F3feCD7b2Dd7061bF505626235a1Df078F205D"]
-  }
+  },
+  redirects: [
+    {
+      "source": "/.well-known/farcaster.json",
+      "destination": "https://api.farcaster.xyz/miniapps/hosted-manifest/0199ca58-4634-4762-8c61-26d4e266e779",
+      "permanent": false
+    }
+  ]
+  
 
 } as const;
-
