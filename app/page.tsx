@@ -128,7 +128,7 @@ export default function Home() {
   const { isFrameReady, setFrameReady, context } = useMiniKit();
   const { address } = useAccount();
   const { connect, connectors } = useConnect();
-  const { storeQuizResult, mintPersonalityNFT, isPending, isConfirmed } = useQuizContract();
+  const { storeQuizResult, mintPersonalityNFT } = useQuizContract();
   
   const [gameState, setGameState] = useState<"welcome" | "quiz" | "result">("welcome");
   const [currentQuestion, setCurrentQuestion] = useState(0);
