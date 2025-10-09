@@ -6,7 +6,7 @@ type Personality = "Bitcoin" | "Ethereum" | "Solana" | "Dogecoin";
 
 export function useQuizContract() {
   const { address } = useAccount();
-  const { writeContractAsync, data: hash, isPending, isError, error } = useWriteContract();
+  const { writeContractAsync, isPending, isError, error } = useWriteContract();
   const [lastTxHash, setLastTxHash] = useState<`0x${string}` | undefined>();
 
   const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({
