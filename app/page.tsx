@@ -98,7 +98,7 @@ const personalityResults = {
 
 export default function Home() {
   const { isFrameReady, setFrameReady, context } = useMiniKit();
-  const { address, isConnected } = useAccount();
+  const { address } = useAccount();
   const { connect, connectors } = useConnect();
   // Uncomment when contract is deployed:
   // import { useQuizContract } from "../lib/useQuizContract";
@@ -300,7 +300,7 @@ export default function Home() {
           
           {!address && isLocalDev && (
             <p className={styles.walletHint}>
-              For local testing: Click "Connect Wallet" above or deploy to Base app for full MiniKit experience
+              For local testing: Click &quot;Connect Wallet&quot; above or deploy to Base app for full MiniKit experience
             </p>
           )}
         </div>
