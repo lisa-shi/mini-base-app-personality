@@ -310,6 +310,62 @@ export default function Home() {
             </button>
           ) : null}
           
+          {/* Global Leaderboard on Welcome Page */}
+          {leaderboardData && leaderboardData.total > 0 ? (
+            <div className={styles.leaderboard}>
+              <h3 className={styles.leaderboardTitle}>
+                🏆 Global Rankings
+              </h3>
+              <p className={styles.leaderboardSubtitle}>
+                {leaderboardData.total} {leaderboardData.total === 1 ? 'person has' : 'people have'} discovered their crypto personality
+              </p>
+              <div className={styles.leaderboardGrid}>
+                {(['Bitcoin', 'Ethereum', 'Solana', 'Dogecoin'] as Personality[]).map((personalityType) => {
+                  const data = leaderboardData[personalityType];
+                  return (
+                    <div 
+                      key={personalityType} 
+                      className={styles.leaderboardItem}
+                    >
+                      <div className={styles.leaderboardHeader}>
+                        <img 
+                          src={personalityResults[personalityType].avatar} 
+                          alt={personalityType}
+                          className={styles.leaderboardAvatar}
+                        />
+                        <div className={styles.leaderboardInfo}>
+                          <div className={styles.leaderboardName}>
+                            {personalityType}
+                          </div>
+                          <div className={styles.leaderboardCount}>
+                            {data.count} {data.count === 1 ? 'person' : 'people'}
+                          </div>
+                        </div>
+                      </div>
+                      <div className={styles.leaderboardBarContainer}>
+                        <div 
+                          className={styles.leaderboardBar}
+                          style={{
+                            width: `${data.percentage}%`,
+                            background: personalityResults[personalityType].gradient
+                          }}
+                        />
+                      </div>
+                      <div className={styles.leaderboardPercentage}>
+                        {data.percentage.toFixed(1)}%
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ) : leaderboardData && leaderboardData.total === 0 ? (
+            <div className={styles.leaderboardEmpty}>
+              <div className={styles.emptyIcon}>🎯</div>
+              <p className={styles.emptyText}>Be the first to discover your crypto personality!</p>
+            </div>
+          ) : null}
+          
           <button 
             onClick={handleStartQuiz} 
             className={styles.startButton}
@@ -414,7 +470,7 @@ export default function Home() {
           </div>
           
           {/* Global Leaderboard */}
-          {leaderboardData && leaderboardData.total > 0 && (
+          {leaderboardData && leaderboardData.total > 0 ? (
             <div className={styles.leaderboard}>
               <h3 className={styles.leaderboardTitle}>
                 🏆 Global Personality Rankings
@@ -464,7 +520,14 @@ export default function Home() {
                 })}
               </div>
             </div>
-          )}
+          ) : leaderboardData && leaderboardData.total === 0 ? (
+            <div className={styles.leaderboardEmpty}>
+              <div className={styles.emptyIcon}>🎯</div>
+              <p className={styles.emptyText}>
+                Once the updated smart contract is deployed, you&apos;ll be able to see global rankings here!
+              </p>
+            </div>
+          ) : null}
           
           {/* Onchain Status */}
           <div className={styles.onchainStatus}>
