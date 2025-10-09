@@ -21,12 +21,21 @@ export function useQuizContract() {
     scores: Record<Personality, number>
   ) => {
     if (!address) {
+      console.error("❌ Cannot store quiz result - wallet not connected");
       throw new Error("Wallet not connected");
     }
 
     try {
       const personalityEnum = PersonalityEnum[personality];
       
+      console.log("🔗 Calling storeQuizResult on contract:", {
+        address: CONTRACT_ADDRESS,
+        personality,
+        personalityEnum,
+        scores,
+        userAddress: address,
+      });
+
       const txHash = await writeContractAsync({
         address: CONTRACT_ADDRESS as `0x${string}`,
         abi: CONTRACT_ABI,
@@ -40,11 +49,20 @@ export function useQuizContract() {
         ],
       });
 
-      console.log("Transaction hash:", txHash);
+      console.log("✅ Quiz result stored successfully!", {
+        transactionHash: txHash,
+        explorer: `https://sepolia.basescan.org/tx/${txHash}`,
+        wallet: address,
+        personality,
+      });
+      
       setLastTxHash(txHash);
       return txHash;
     } catch (err) {
-      console.error("Error storing quiz result:", err);
+      console.error("❌ Error storing quiz result:", err);
+      if (err instanceof Error) {
+        console.error("Error message:", err.message);
+      }
       throw err;
     }
   };
@@ -54,12 +72,21 @@ export function useQuizContract() {
    */
   const mintPersonalityNFT = async (personality: Personality) => {
     if (!address) {
+      console.error("❌ Cannot mint NFT - wallet not connected");
       throw new Error("Wallet not connected");
     }
 
     try {
       const personalityEnum = PersonalityEnum[personality];
       const tokenURI = NFT_METADATA_URIS[personality];
+
+      console.log("🎨 Calling mintPersonalityNFT on contract:", {
+        address: CONTRACT_ADDRESS,
+        personality,
+        personalityEnum,
+        tokenURI,
+        userAddress: address,
+      });
 
       const txHash = await writeContractAsync({
         address: CONTRACT_ADDRESS as `0x${string}`,
@@ -68,11 +95,20 @@ export function useQuizContract() {
         args: [personalityEnum, tokenURI],
       });
 
-      console.log("NFT minted, tx hash:", txHash);
+      console.log("✅ NFT minted successfully!", {
+        transactionHash: txHash,
+        explorer: `https://sepolia.basescan.org/tx/${txHash}`,
+        wallet: address,
+        personality,
+      });
+      
       setLastTxHash(txHash);
       return txHash;
     } catch (err) {
-      console.error("Error minting NFT:", err);
+      console.error("❌ Error minting NFT:", err);
+      if (err instanceof Error) {
+        console.error("Error message:", err.message);
+      }
       throw err;
     }
   };

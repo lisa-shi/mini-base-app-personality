@@ -199,54 +199,81 @@ export default function Home() {
   };
 
   const handleSaveResultOnchain = async (personality: Personality, quizScores: Record<Personality, number>) => {
-    if (!address) return;
+    if (!address) {
+      console.warn("⚠️ Cannot save result - wallet not connected");
+      return;
+    }
     
     try {
       setIsSavingResult(true);
       
-      // Store quiz result onchain
-      await storeQuizResult(personality, quizScores);
-      
-      console.log("📝 Quiz result ready to save onchain:", {
+      console.log("📝 Initiating quiz result save to blockchain:", {
         wallet: address,
         personality,
         scores: quizScores,
         timestamp: new Date().toISOString()
       });
       
+      // Store quiz result onchain
+      const txHash = await storeQuizResult(personality, quizScores);
+      
+      console.log("✅ Quiz result transaction submitted!", {
+        transactionHash: txHash,
+        wallet: address,
+        personality,
+        scores: quizScores,
+        explorer: `https://sepolia.basescan.org/tx/${txHash}`
+      });
+      
       setResultSaved(true);
       
-      // Remove this alert once contract is deployed
-      // alert("🎉 Result would be saved onchain! (Contract not deployed yet)");
-      
     } catch (error) {
-      console.error("Error saving result:", error);
+      console.error("❌ Error saving result to blockchain:", error);
+      if (error instanceof Error) {
+        console.error("Error details:", error.message);
+      }
       setResultSaved(false);
+      
+      // Show error to user
+      alert(`Failed to save result onchain: ${error instanceof Error ? error.message : 'Unknown error'}\n\nYou can still view your result, but it won't be stored on the blockchain.`);
     } finally {
       setIsSavingResult(false);
     }
   };
 
   const handleMintNFT = async () => {
-    if (!result || !address) return;
+    if (!result || !address) {
+      console.warn("⚠️ Cannot mint NFT - missing result or wallet");
+      return;
+    }
     
     try {
       setIsMintingNFT(true);
       
-      // Mint NFT onchain
-      await mintPersonalityNFT(result);
-      
-      console.log("🎨 NFT minted successfully:", {
+      console.log("🎨 Initiating NFT mint:", {
         wallet: address,
         personality: result,
         timestamp: new Date().toISOString()
       });
       
-      alert(`🎉 Success! Your ${result} NFT has been minted!\n\nCheck your wallet to see your new personality NFT.`);
+      // Mint NFT onchain
+      const txHash = await mintPersonalityNFT(result);
+      
+      console.log("✅ NFT minted successfully!", {
+        transactionHash: txHash,
+        wallet: address,
+        personality: result,
+        explorer: `https://sepolia.basescan.org/tx/${txHash}`
+      });
+      
+      alert(`🎉 Success! Your ${result} NFT has been minted!\n\nTransaction: ${txHash}\n\nCheck your wallet to see your new personality NFT.`);
       
     } catch (error) {
-      console.error("Error minting NFT:", error);
-      alert("Failed to mint NFT. Please try again.");
+      console.error("❌ Error minting NFT:", error);
+      if (error instanceof Error) {
+        console.error("Error details:", error.message);
+      }
+      alert(`Failed to mint NFT: ${error instanceof Error ? error.message : 'Unknown error'}\n\nPlease try again.`);
     } finally {
       setIsMintingNFT(false);
     }
