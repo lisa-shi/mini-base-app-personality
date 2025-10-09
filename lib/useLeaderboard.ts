@@ -1,5 +1,6 @@
 import { useReadContract } from "wagmi";
 import { CONTRACT_ADDRESS, CONTRACT_ABI } from "./contractConfig";
+import { useEffect } from "react";
 
 export interface LeaderboardData {
   Bitcoin: {
@@ -22,11 +23,21 @@ export interface LeaderboardData {
 }
 
 export function useLeaderboard() {
-  const { data, isLoading, isError, refetch } = useReadContract({
+  const { data, isLoading, isError, error, refetch } = useReadContract({
     address: CONTRACT_ADDRESS as `0x${string}`,
     abi: CONTRACT_ABI,
     functionName: "getLeaderboardData",
   });
+
+  // Log leaderboard data fetch for debugging
+  useEffect(() => {
+    if (isError) {
+      console.error("❌ Failed to fetch leaderboard data from contract:", error);
+      console.error("Contract address:", CONTRACT_ADDRESS);
+    } else if (data) {
+      console.log("✅ Leaderboard data fetched successfully:", data);
+    }
+  }, [data, isError, error]);
 
   // Process the data into a more usable format
   // If there's an error or no data, return empty state (0 counts)
