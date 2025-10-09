@@ -1,22 +1,13 @@
-const ROOT_URL =
-  process.env.NEXT_PUBLIC_URL ||
-  (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : 'http://localhost:3000');
-
-/**
- * MiniApp configuration object. Must follow the Farcaster MiniApp specification.
- *
- * @see {@link https://miniapps.farcaster.xyz/docs/guides/publishing}
- */
 export const minikitConfig = {
-  accountAssociation: {
-    header: "",
-    payload: "",
-    signature: ""
+  accountAssociation: { // this will be added in step 5
+    "header": "",
+    "payload": "",
+    "signature": ""
   },
   miniapp: {
     version: "1",
-    name: "personality-me", 
-    subtitle: "which crpto are you", 
+    name: "Cubey", 
+    subtitle: "Your AI Ad Companion", 
     description: "Ads",
     screenshotUrls: [`${ROOT_URL}/screenshot-portrait.png`],
     iconUrl: `${ROOT_URL}/blue-icon.png`,
@@ -25,7 +16,7 @@ export const minikitConfig = {
     homeUrl: ROOT_URL,
     webhookUrl: `${ROOT_URL}/api/webhook`,
     primaryCategory: "social",
-    tags: ["personality", "discovery"],
+    tags: ["marketing", "ads", "quickstart", "waitlist"],
     heroImageUrl: `${ROOT_URL}/blue-hero.png`, 
     tagline: "",
     ogTitle: "",
@@ -35,5 +26,5 @@ export const minikitConfig = {
   "baseBuilder": {
     "allowedAddresses": ["0x5F3Af46348372BC4C01451e5a7CC7a90C4CEc226"]
   }
-} as const;
 
+} as const;
