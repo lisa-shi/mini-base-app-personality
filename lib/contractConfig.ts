@@ -112,9 +112,9 @@ export enum PersonalityEnum {
 
 // NFT Metadata URIs (you can host these on IPFS or a server)
 export const NFT_METADATA_URIS = {
-  Bitcoin: "ipfs://YOUR_BITCOIN_METADATA_CID",
-  Ethereum: "ipfs://YOUR_ETHEREUM_METADATA_CID",
-  Solana: "ipfs://YOUR_SOLANA_METADATA_CID",
-  Dogecoin: "ipfs://YOUR_DOGECOIN_METADATA_CID",
+  Bitcoin: "https://mini-base-app-personality.vercel.app/nft-metadata/bitcoin.json",
+  Ethereum: "https://mini-base-app-personality.vercel.app/nft-metadata/ethereum.json",
+  Solana: "https://mini-base-app-personality.vercel.app/nft-metadata/solana.json",
+  Dogecoin: "https://mini-base-app-personality.vercel.app/nft-metadata/dogecoin.json",
 };
 
