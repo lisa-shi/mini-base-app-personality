@@ -1,0 +1,42 @@
+{
+  "name": "Ethereum: The Builder",
+  "description": "You're an innovator and a problem-solver! You love creating new things and collaborating with others to build the future. Like Ethereum, you're versatile, creative, and always pushing boundaries.",
+  "image": "ipfs://YOUR_ETHEREUM_IMAGE_CID",
+  "external_url": "https://your-app-url.com",
+  "attributes": [
+    {
+      "trait_type": "Personality",
+      "value": "Ethereum"
+    },
+    {
+      "trait_type": "Symbol",
+      "value": "⟠"
+    },
+    {
+      "trait_type": "Trait",
+      "value": "Innovative"
+    },
+    {
+      "trait_type": "Trait",
+      "value": "Collaborative"
+    },
+    {
+      "trait_type": "Trait",
+      "value": "Creative"
+    },
+    {
+      "trait_type": "Color Scheme",
+      "value": "Blue/Purple"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Builder"
+    }
+  ],
+  "properties": {
+    "personality_type": "Ethereum",
+    "quiz_version": "1.0",
+    "collection": "Crypto Personality Quiz"
+  }
+}
+

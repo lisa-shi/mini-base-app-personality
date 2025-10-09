@@ -9,28 +9,29 @@ const ROOT_URL =
  */
 export const minikitConfig = {
   accountAssociation: {
+    // Will be filled after deploying to Vercel and signing manifest
     header: "",
     payload: "",
     signature: ""
   },
   miniapp: {
     version: "1",
-    name: "Cubey", 
-    subtitle: "Your AI Ad Companion", 
-    description: "Ads",
+    name: "Crypto Personality Quiz", 
+    subtitle: "Discover Your Crypto Personality", 
+    description: "Take this fun quiz to find out which cryptocurrency matches your personality! Are you Bitcoin, Ethereum, Solana, or Dogecoin? Complete the quiz and mint your personality NFT onchain.",
     screenshotUrls: [`${ROOT_URL}/screenshot-portrait.png`],
-    iconUrl: `${ROOT_URL}/blue-icon.png`,
-    splashImageUrl: `${ROOT_URL}/blue-hero.png`,
-    splashBackgroundColor: "#000000",
+    iconUrl: `${ROOT_URL}/icon.png`,
+    splashImageUrl: `${ROOT_URL}/hero.png`,
+    splashBackgroundColor: "#667eea",
     homeUrl: ROOT_URL,
     webhookUrl: `${ROOT_URL}/api/webhook`,
     primaryCategory: "social",
-    tags: ["marketing", "ads", "quickstart", "waitlist"],
-    heroImageUrl: `${ROOT_URL}/blue-hero.png`, 
-    tagline: "",
-    ogTitle: "",
-    ogDescription: "",
-    ogImageUrl: `${ROOT_URL}/blue-hero.png`,
+    tags: ["quiz", "nft", "blockchain", "personality", "crypto", "web3"],
+    heroImageUrl: `${ROOT_URL}/hero.png`, 
+    tagline: "Find Your Crypto Spirit Animal",
+    ogTitle: "Crypto Personality Quiz - Discover Your Crypto Identity",
+    ogDescription: "Are you Bitcoin, Ethereum, Solana, or Dogecoin? Take this fun personality quiz and mint your result as an NFT!",
+    ogImageUrl: `${ROOT_URL}/hero.png`,
   },
 } as const;
 

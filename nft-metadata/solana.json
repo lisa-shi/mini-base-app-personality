@@ -1,0 +1,42 @@
+{
+  "name": "Solana: The Speedster",
+  "description": "You're fast, bold, and always ahead of the curve! You thrive on competition and love chasing the next big opportunity. Like Solana, you're built for speed and efficiency.",
+  "image": "ipfs://YOUR_SOLANA_IMAGE_CID",
+  "external_url": "https://your-app-url.com",
+  "attributes": [
+    {
+      "trait_type": "Personality",
+      "value": "Solana"
+    },
+    {
+      "trait_type": "Symbol",
+      "value": "◎"
+    },
+    {
+      "trait_type": "Trait",
+      "value": "Fast"
+    },
+    {
+      "trait_type": "Trait",
+      "value": "Bold"
+    },
+    {
+      "trait_type": "Trait",
+      "value": "Competitive"
+    },
+    {
+      "trait_type": "Color Scheme",
+      "value": "Green/Purple"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Speedster"
+    }
+  ],
+  "properties": {
+    "personality_type": "Solana",
+    "quiz_version": "1.0",
+    "collection": "Crypto Personality Quiz"
+  }
+}
+

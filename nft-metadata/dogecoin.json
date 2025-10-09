@@ -1,0 +1,42 @@
+{
+  "name": "Dogecoin: The Social Butterfly",
+  "description": "You're fun, friendly, and bring joy wherever you go! You value community and good vibes over everything else. Like Dogecoin, you remind everyone that crypto should be fun and accessible to all.",
+  "image": "ipfs://YOUR_DOGECOIN_IMAGE_CID",
+  "external_url": "https://your-app-url.com",
+  "attributes": [
+    {
+      "trait_type": "Personality",
+      "value": "Dogecoin"
+    },
+    {
+      "trait_type": "Symbol",
+      "value": "Ð"
+    },
+    {
+      "trait_type": "Trait",
+      "value": "Fun"
+    },
+    {
+      "trait_type": "Trait",
+      "value": "Social"
+    },
+    {
+      "trait_type": "Trait",
+      "value": "Community-driven"
+    },
+    {
+      "trait_type": "Color Scheme",
+      "value": "Gold/Yellow"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Social Butterfly"
+    }
+  ],
+  "properties": {
+    "personality_type": "Dogecoin",
+    "quiz_version": "1.0",
+    "collection": "Crypto Personality Quiz"
+  }
+}
+

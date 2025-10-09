@@ -1,0 +1,36 @@
+<svg width="1000" height="1000" viewBox="0 0 1000 1000" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="solanaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#14f195;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#9945ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#9945ff;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="15" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1000" height="1000" fill="url(#solanaGrad)"/>
+  
+  <!-- Lightning bolts -->
+  <path d="M 150 200 L 180 150 L 160 150 L 190 100" stroke="rgba(255,255,255,0.2)" stroke-width="8" fill="none"/>
+  <path d="M 850 250 L 880 200 L 860 200 L 890 150" stroke="rgba(255,255,255,0.2)" stroke-width="8" fill="none"/>
+  <path d="M 200 850 L 230 800 L 210 800 L 240 750" stroke="rgba(255,255,255,0.2)" stroke-width="8" fill="none"/>
+  <path d="M 800 900 L 830 850 L 810 850 L 840 800" stroke="rgba(255,255,255,0.2)" stroke-width="8" fill="none"/>
+  
+  <!-- Main circle -->
+  <circle cx="500" cy="500" r="300" fill="white" filter="url(#glow)"/>
+  
+  <!-- Solana symbol -->
+  <text x="500" y="620" font-family="Arial, sans-serif" font-size="400" font-weight="bold" fill="#9945ff" text-anchor="middle">◎</text>
+  
+  <!-- Title -->
+  <text x="500" y="150" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="white" text-anchor="middle">SOLANA</text>
+  <text x="500" y="200" font-family="Arial, sans-serif" font-size="32" fill="rgba(255,255,255,0.9)" text-anchor="middle">The Speedster</text>
+</svg>
+

@@ -1,0 +1,35 @@
+<svg width="1000" height="1000" viewBox="0 0 1000 1000" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="ethereumGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#627eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8c9eff;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="15" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1000" height="1000" fill="url(#ethereumGrad)"/>
+  
+  <!-- Decorative shapes -->
+  <polygon points="100,100 150,50 200,100" fill="rgba(255,255,255,0.1)"/>
+  <polygon points="850,150 900,100 950,150" fill="rgba(255,255,255,0.1)"/>
+  <polygon points="150,850 200,800 250,850" fill="rgba(255,255,255,0.1)"/>
+  <polygon points="800,900 850,850 900,900" fill="rgba(255,255,255,0.1)"/>
+  
+  <!-- Main circle -->
+  <circle cx="500" cy="500" r="300" fill="white" filter="url(#glow)"/>
+  
+  <!-- Ethereum symbol -->
+  <text x="500" y="620" font-family="Arial, sans-serif" font-size="400" font-weight="bold" fill="#627eea" text-anchor="middle">⟠</text>
+  
+  <!-- Title -->
+  <text x="500" y="150" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="white" text-anchor="middle">ETHEREUM</text>
+  <text x="500" y="200" font-family="Arial, sans-serif" font-size="32" fill="rgba(255,255,255,0.9)" text-anchor="middle">The Builder</text>
+</svg>
+

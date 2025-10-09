@@ -1,0 +1,42 @@
+{
+  "name": "Bitcoin: The Pioneer",
+  "description": "You're the OG of the crypto world! Steady, reliable, and built to last. You value security and stability, and you're in it for the long haul. Like Bitcoin, you're the foundation everyone else builds upon.",
+  "image": "ipfs://YOUR_BITCOIN_IMAGE_CID",
+  "external_url": "https://your-app-url.com",
+  "attributes": [
+    {
+      "trait_type": "Personality",
+      "value": "Bitcoin"
+    },
+    {
+      "trait_type": "Symbol",
+      "value": "₿"
+    },
+    {
+      "trait_type": "Trait",
+      "value": "Steady"
+    },
+    {
+      "trait_type": "Trait",
+      "value": "Reliable"
+    },
+    {
+      "trait_type": "Trait",
+      "value": "Long-term"
+    },
+    {
+      "trait_type": "Color Scheme",
+      "value": "Orange"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Pioneer"
+    }
+  ],
+  "properties": {
+    "personality_type": "Bitcoin",
+    "quiz_version": "1.0",
+    "collection": "Crypto Personality Quiz"
+  }
+}
+
