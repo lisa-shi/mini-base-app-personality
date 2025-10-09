@@ -33,6 +33,12 @@ contract CryptoPersonalityQuiz is ERC721, Ownable {
     
     // Mapping from token ID to metadata URI
     mapping(uint256 => string) private _tokenURIs;
+    
+    // Counter for each personality type
+    mapping(Personality => uint256) public personalityCount;
+    
+    // Total number of quiz completions
+    uint256 public totalQuizCompletions;
 
     // Events
     event QuizCompleted(address indexed user, Personality personality, uint256 timestamp);
@@ -61,6 +67,11 @@ contract CryptoPersonalityQuiz is ERC721, Ownable {
         });
 
         userResults[msg.sender].push(result);
+        
+        // Increment personality counter
+        personalityCount[personality]++;
+        totalQuizCompletions++;
+        
         emit QuizCompleted(msg.sender, personality, block.timestamp);
     }
 
@@ -128,6 +139,45 @@ contract CryptoPersonalityQuiz is ERC721, Ownable {
      */
     function getTotalNFTsMinted() external view returns (uint256) {
         return _tokenIds;
+    }
+    
+    /**
+     * @dev Get count for a specific personality type
+     */
+    function getPersonalityCount(Personality personality) external view returns (uint256) {
+        return personalityCount[personality];
+    }
+    
+    /**
+     * @dev Get all personality counts as an array [Bitcoin, Ethereum, Solana, Dogecoin]
+     */
+    function getAllPersonalityCounts() external view returns (uint256[4] memory) {
+        return [
+            personalityCount[Personality.Bitcoin],
+            personalityCount[Personality.Ethereum],
+            personalityCount[Personality.Solana],
+            personalityCount[Personality.Dogecoin]
+        ];
+    }
+    
+    /**
+     * @dev Get leaderboard data with percentages
+     * Returns counts and total for client-side percentage calculation
+     */
+    function getLeaderboardData() external view returns (
+        uint256 bitcoinCount,
+        uint256 ethereumCount,
+        uint256 solanaCount,
+        uint256 dogecoinCount,
+        uint256 total
+    ) {
+        return (
+            personalityCount[Personality.Bitcoin],
+            personalityCount[Personality.Ethereum],
+            personalityCount[Personality.Solana],
+            personalityCount[Personality.Dogecoin],
+            totalQuizCompletions
+        );
     }
 }
 

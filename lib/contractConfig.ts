@@ -68,6 +68,37 @@ export const CONTRACT_ABI = [
     ],
     "name": "PersonalityNFTMinted",
     "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "getLeaderboardData",
+    "outputs": [
+      { "internalType": "uint256", "name": "bitcoinCount", "type": "uint256" },
+      { "internalType": "uint256", "name": "ethereumCount", "type": "uint256" },
+      { "internalType": "uint256", "name": "solanaCount", "type": "uint256" },
+      { "internalType": "uint256", "name": "dogecoinCount", "type": "uint256" },
+      { "internalType": "uint256", "name": "total", "type": "uint256" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getAllPersonalityCounts",
+    "outputs": [
+      { "internalType": "uint256[4]", "name": "", "type": "uint256[4]" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "totalQuizCompletions",
+    "outputs": [
+      { "internalType": "uint256", "name": "", "type": "uint256" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
   }
 ] as const;
 

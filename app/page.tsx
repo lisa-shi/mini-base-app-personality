@@ -4,6 +4,7 @@ import { useMiniKit } from "@coinbase/onchainkit/minikit";
 import { useAccount, useConnect } from "wagmi";
 import styles from "./page.module.css";
 import { useQuizContract } from "../lib/useQuizContract";
+import { useLeaderboard } from "../lib/useLeaderboard";
 
 type Personality = "Bitcoin" | "Ethereum" | "Solana" | "Dogecoin";
 
@@ -133,6 +134,7 @@ export default function Home() {
   const { address } = useAccount();
   const { connect, connectors } = useConnect();
   const { storeQuizResult, mintPersonalityNFT } = useQuizContract();
+  const { leaderboardData, isLoading: leaderboardLoading, refetch: refetchLeaderboard } = useLeaderboard();
   
   const [gameState, setGameState] = useState<"welcome" | "quiz" | "result">("welcome");
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -410,6 +412,59 @@ export default function Home() {
             <div className={styles.pickupLineLabel}>Pickup Line:</div>
             <p>{personality.pickupLine}</p>
           </div>
+          
+          {/* Global Leaderboard */}
+          {leaderboardData && leaderboardData.total > 0 && (
+            <div className={styles.leaderboard}>
+              <h3 className={styles.leaderboardTitle}>
+                🏆 Global Personality Rankings
+              </h3>
+              <p className={styles.leaderboardSubtitle}>
+                {leaderboardData.total} {leaderboardData.total === 1 ? 'person has' : 'people have'} taken the quiz
+              </p>
+              <div className={styles.leaderboardGrid}>
+                {(['Bitcoin', 'Ethereum', 'Solana', 'Dogecoin'] as Personality[]).map((personalityType) => {
+                  const data = leaderboardData[personalityType];
+                  const isCurrentPersonality = personalityType === result;
+                  return (
+                    <div 
+                      key={personalityType} 
+                      className={`${styles.leaderboardItem} ${isCurrentPersonality ? styles.leaderboardItemActive : ''}`}
+                    >
+                      <div className={styles.leaderboardHeader}>
+                        <img 
+                          src={personalityResults[personalityType].avatar} 
+                          alt={personalityType}
+                          className={styles.leaderboardAvatar}
+                        />
+                        <div className={styles.leaderboardInfo}>
+                          <div className={styles.leaderboardName}>
+                            {personalityType}
+                            {isCurrentPersonality && <span className={styles.youBadge}>YOU</span>}
+                          </div>
+                          <div className={styles.leaderboardCount}>
+                            {data.count} {data.count === 1 ? 'person' : 'people'}
+                          </div>
+                        </div>
+                      </div>
+                      <div className={styles.leaderboardBarContainer}>
+                        <div 
+                          className={styles.leaderboardBar}
+                          style={{
+                            width: `${data.percentage}%`,
+                            background: personalityResults[personalityType].gradient
+                          }}
+                        />
+                      </div>
+                      <div className={styles.leaderboardPercentage}>
+                        {data.percentage.toFixed(1)}%
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
           
           {/* Onchain Status */}
           <div className={styles.onchainStatus}>
