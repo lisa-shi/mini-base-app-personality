@@ -134,7 +134,7 @@ export default function Home() {
   const { address } = useAccount();
   const { connect, connectors } = useConnect();
   const { storeQuizResult, mintPersonalityNFT } = useQuizContract();
-  const { leaderboardData } = useLeaderboard();
+  const { leaderboardData, refetch: refetchLeaderboard } = useLeaderboard();
   
   const [gameState, setGameState] = useState<"welcome" | "quiz" | "result">("welcome");
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -226,6 +226,13 @@ export default function Home() {
       });
       
       setResultSaved(true);
+      
+      // Refresh leaderboard to show updated counts
+      // Wait a moment for the transaction to be processed
+      setTimeout(() => {
+        console.log("🔄 Refreshing leaderboard data...");
+        refetchLeaderboard();
+      }, 2000);
       
     } catch (error) {
       console.error("❌ Error saving result to blockchain:", error);
