@@ -134,7 +134,7 @@ export default function Home() {
   const { address } = useAccount();
   const { connect, connectors } = useConnect();
   const { storeQuizResult, mintPersonalityNFT } = useQuizContract();
-  const { leaderboardData, isLoading: leaderboardLoading, refetch: refetchLeaderboard } = useLeaderboard();
+  const { leaderboardData } = useLeaderboard();
   
   const [gameState, setGameState] = useState<"welcome" | "quiz" | "result">("welcome");
   const [currentQuestion, setCurrentQuestion] = useState(0);
