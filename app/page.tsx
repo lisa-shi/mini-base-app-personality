@@ -81,6 +81,7 @@ const personalityResults = {
     },
     pickupLine: "I don't chase pumps, but for you? I'd HODL forever. 💰",
     emoji: "₿",
+    avatar: "/bitcoin.png",
     gradient: "linear-gradient(135deg, #f7931a 0%, #ffa940 100%)",
   },
   Ethereum: {
@@ -94,6 +95,7 @@ const personalityResults = {
     },
     pickupLine: "Are you gas fees? Because you take my breath away... but you're worth it. 💜",
     emoji: "⟠",
+    avatar: "/eth.png",
     gradient: "linear-gradient(135deg, #627eea 0%, #8c9eff 100%)",
   },
   Solana: {
@@ -107,6 +109,7 @@ const personalityResults = {
     },
     pickupLine: "They say I'm fast... but I'll slow down for you. 65,000 TPS of pure romance. 🚀",
     emoji: "◎",
+    avatar: "/solana.png",
     gradient: "linear-gradient(135deg, #14f195 0%, #9945ff 100%)",
   },
   Dogecoin: {
@@ -120,6 +123,7 @@ const personalityResults = {
     },
     pickupLine: "Much wow. Very date. Such romance. To the moon? Nah, straight to your heart. 🌙",
     emoji: "Ð",
+    avatar: "/dogecoin.png",
     gradient: "linear-gradient(135deg, #c2a633 0%, #f0d460 100%)",
   },
 };
@@ -153,7 +157,7 @@ export default function Home() {
       setFrameReady();
     }
   }, [setFrameReady, isFrameReady]);
-
+ 
   const handleConnectWallet = () => {
     // For local development, connect with first available connector
     if (isLocalDev && connectors.length > 0) {
@@ -255,8 +259,8 @@ export default function Home() {
   };
 
   if (gameState === "welcome") {
-    return (
-      <div className={styles.container}>
+  return (
+    <div className={styles.container}>
         <div className={styles.welcomeContent}>
           <div className={styles.welcomeEmoji}>🌟</div>
           <h1 className={styles.welcomeTitle}>Discover Your Crypto Personality!</h1>
@@ -310,8 +314,8 @@ export default function Home() {
             disabled={!address}
           >
             {address ? "Start Quiz ✨" : "Waiting for Wallet..."}
-          </button>
-          
+      </button>
+      
           {!address && !isLocalDev && (
             <p className={styles.walletHint}>
               Please ensure you&apos;re using this app in a MiniKit-compatible environment
@@ -370,8 +374,12 @@ export default function Home() {
     return (
       <div className={styles.container}>
         <div className={styles.resultContent}>
-          <div className={styles.resultEmoji} style={{ background: personality.gradient }}>
-            {personality.emoji}
+          <div className={styles.avatarContainer}>
+            <img 
+              src={personality.avatar} 
+              alt={`${result} personality avatar`}
+              className={styles.avatarImage}
+            />
           </div>
           <h1 className={styles.resultTitle}>{personality.title}</h1>
           <p className={styles.resultDescription}>{personality.description}</p>
@@ -453,10 +461,10 @@ export default function Home() {
             >
               {isMintingNFT ? "Minting..." : "Mint NFT 🎨"}
             </button>
-          </div>
         </div>
       </div>
-    );
+    </div>
+  );
   }
 
   return null;
