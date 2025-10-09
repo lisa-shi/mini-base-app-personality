@@ -9,12 +9,10 @@ const ROOT_URL =
  */
 export const minikitConfig = {
   accountAssociation: {
-    // Will be filled after deploying to Vercel and signing manifest
-    header: "eyJmaWQiOjEzNzM3MTcsInR5cGUiOiJjdXN0b2R5Iiwia2V5IjoiMHg0NDc3MkNFQ0UwRWIxNTVhYjg5NDZGQjZjZUNDMjRjMjJlOEYyMjc0In0",
-    payload: "eyJkb21haW4iOiJtaW5pLWJhc2UtYXBwLXBlcnNvbmFsaXR5LnZlcmNlbC5hcHAifQ",
-    signature: "MHg4YTE5ZGIxM2E1NjEwZGYzZDZhNzA5NzQ1Y2NkMjk1MDRhNGMwM2NhMjA4NzNkZGFmMzRhNzYzYjI4ZDJhZTM0MjAwZWM0MTIwZjAzYWE0ZjQ2NTJhZjljNWM4ODgyNGQxNWU5MGM5ODRkMmVlYjI5ZTNjZjZkMTBhNDIxNmMwMDFj"
+    "header": "eyJmaWQiOjEzNzM3MTcsInR5cGUiOiJjdXN0b2R5Iiwia2V5IjoiMHg0NDc3MkNFQ0UwRWIxNTVhYjg5NDZGQjZjZUNDMjRjMjJlOEYyMjc0In0",
+    "payload": "eyJkb21haW4iOiJtaW5pLWJhc2UtYXBwLXBlcnNvbmFsaXR5LnZlcmNlbC5hcHAifQ",
+    "signature": "MHg4YTE5ZGIxM2E1NjEwZGYzZDZhNzA5NzQ1Y2NkMjk1MDRhNGMwM2NhMjA4NzNkZGFmMzRhNzYzYjI4ZDJhZTM0MjAwZWM0MTIwZjAzYWE0ZjQ2NTJhZjljNWM4ODgyNGQxNWU5MGM5ODRkMmVlYjI5ZTNjZjZkMTBhNDIxNmMwMDFj"
   },
-
   miniapp: {
     version: "1",
     name: "Crypto Personality Quiz", 
@@ -35,7 +33,7 @@ export const minikitConfig = {
     ogImageUrl: `${ROOT_URL}/hero.png`,
   },
   baseBuilder: {
-    allowedAddresses: ["0x5F3Af46348372BC4C01451e5a7CC7a90C4CEc226","0xc4F3feCD7b2Dd7061bF505626235a1Df078F205D"]
+    allowedAddresses: ["0xeBF44352AE8Fc7526ea4D128eC4551AfA9BD9213","0xc4F3feCD7b2Dd7061bF505626235a1Df078F205D"]
   },
   redirects: [
     {
