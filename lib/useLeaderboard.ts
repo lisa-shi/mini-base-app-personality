@@ -29,7 +29,8 @@ export function useLeaderboard() {
   });
 
   // Process the data into a more usable format
-  const leaderboardData: LeaderboardData | null = data
+  // If there's an error or no data, return empty state (0 counts)
+  const leaderboardData: LeaderboardData = data
     ? (() => {
         const [bitcoinCount, ethereumCount, solanaCount, dogecoinCount, total] = data as [
           bigint,
@@ -65,7 +66,14 @@ export function useLeaderboard() {
           total: totalNum,
         };
       })()
-    : null;
+    : {
+        // Return empty state when contract call fails or no data
+        Bitcoin: { count: 0, percentage: 0 },
+        Ethereum: { count: 0, percentage: 0 },
+        Solana: { count: 0, percentage: 0 },
+        Dogecoin: { count: 0, percentage: 0 },
+        total: 0,
+      };
 
   return {
     leaderboardData,

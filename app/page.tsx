@@ -311,7 +311,7 @@ export default function Home() {
           ) : null}
           
           {/* Global Leaderboard on Welcome Page */}
-          {leaderboardData && leaderboardData.total > 0 ? (
+          {leaderboardData.total > 0 ? (
             <div className={styles.leaderboard}>
               <h3 className={styles.leaderboardTitle}>
                 🏆 Global Rankings
@@ -359,12 +359,12 @@ export default function Home() {
                 })}
               </div>
             </div>
-          ) : leaderboardData && leaderboardData.total === 0 ? (
+          ) : (
             <div className={styles.leaderboardEmpty}>
               <div className={styles.emptyIcon}>🎯</div>
               <p className={styles.emptyText}>Be the first to discover your crypto personality!</p>
             </div>
-          ) : null}
+          )}
           
           <button 
             onClick={handleStartQuiz} 
@@ -470,7 +470,7 @@ export default function Home() {
           </div>
           
           {/* Global Leaderboard */}
-          {leaderboardData && leaderboardData.total > 0 ? (
+          {leaderboardData.total > 0 ? (
             <div className={styles.leaderboard}>
               <h3 className={styles.leaderboardTitle}>
                 🏆 Global Personality Rankings
@@ -520,14 +520,14 @@ export default function Home() {
                 })}
               </div>
             </div>
-          ) : leaderboardData && leaderboardData.total === 0 ? (
+          ) : (
             <div className={styles.leaderboardEmpty}>
               <div className={styles.emptyIcon}>🎯</div>
               <p className={styles.emptyText}>
                 Once the updated smart contract is deployed, you&apos;ll be able to see global rankings here!
               </p>
             </div>
-          ) : null}
+          )}
           
           {/* Onchain Status */}
           <div className={styles.onchainStatus}>
