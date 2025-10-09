@@ -33,5 +33,9 @@ export const minikitConfig = {
     ogDescription: "Are you Bitcoin, Ethereum, Solana, or Dogecoin? Take this fun personality quiz and mint your result as an NFT!",
     ogImageUrl: `${ROOT_URL}/hero.png`,
   },
+  "baseBuilder": {
+    "allowedAddresses": ["0x5F3Af46348372BC4C01451e5a7CC7a90C4CEc226"]
+  }
+
 } as const;
 
