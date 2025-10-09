@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useMiniKit } from "@coinbase/onchainkit/minikit";
 import { useAccount, useConnect } from "wagmi";
 import styles from "./page.module.css";
-// import { useQuizContract } from "../lib/useQuizContract"; // Uncomment when contract is deployed
+import { useQuizContract } from "../lib/useQuizContract";
 
 type Personality = "Bitcoin" | "Ethereum" | "Solana" | "Dogecoin";
 
@@ -128,9 +128,7 @@ export default function Home() {
   const { isFrameReady, setFrameReady, context } = useMiniKit();
   const { address } = useAccount();
   const { connect, connectors } = useConnect();
-  // Uncomment when contract is deployed:
-  // import { useQuizContract } from "../lib/useQuizContract";
-  // const { storeQuizResult, mintPersonalityNFT, isPending, isConfirmed } = useQuizContract();
+  const { storeQuizResult, mintPersonalityNFT, isPending, isConfirmed } = useQuizContract();
   
   const [gameState, setGameState] = useState<"welcome" | "quiz" | "result">("welcome");
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -200,11 +198,8 @@ export default function Home() {
     try {
       setIsSavingResult(true);
       
-      // When contract is deployed, uncomment this:
-      // await storeQuizResult(personality, quizScores);
-      
-      // Simulated saving for now
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Store quiz result onchain
+      await storeQuizResult(personality, quizScores);
       
       console.log("📝 Quiz result ready to save onchain:", {
         wallet: address,
@@ -232,19 +227,16 @@ export default function Home() {
     try {
       setIsMintingNFT(true);
       
-      // When contract is deployed, uncomment this:
-      // await mintPersonalityNFT(result);
+      // Mint NFT onchain
+      await mintPersonalityNFT(result);
       
-      // Simulated minting for now
-      await new Promise(resolve => setTimeout(resolve, 3000));
-      
-      console.log("🎨 NFT ready to mint:", {
+      console.log("🎨 NFT minted successfully:", {
         wallet: address,
         personality: result,
         timestamp: new Date().toISOString()
       });
       
-      alert(`🎨 ${result} NFT would be minted! (Contract not deployed yet)\n\nOnce deployed, this will create a unique ${result}-themed NFT in your wallet.`);
+      alert(`🎉 Success! Your ${result} NFT has been minted!\n\nCheck your wallet to see your new personality NFT.`);
       
     } catch (error) {
       console.error("Error minting NFT:", error);
@@ -426,7 +418,7 @@ export default function Home() {
             ) : (
               <div className={styles.statusPending}>
                 <span className={styles.infoIcon}>ℹ️</span>
-                <span>Deploy contract to save results onchain</span>
+                <span>Ready to save results onchain</span>
               </div>
             )}
           </div>

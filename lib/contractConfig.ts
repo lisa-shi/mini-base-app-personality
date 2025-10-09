@@ -1,6 +1,6 @@
 // Contract configuration
 // After deploying your contract, update this address
-export const CONTRACT_ADDRESS = "0x0000000000000000000000000000000000000000"; // Replace with your deployed contract address
+export const CONTRACT_ADDRESS = "0x850eb63dE7F69e485F4163A46c3484c8D43ef355"; // Deployed to Base Sepolia
 
 // Contract ABI - simplified version for the key functions we'll use
 export const CONTRACT_ABI = [
