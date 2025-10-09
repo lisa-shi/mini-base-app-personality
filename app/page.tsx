@@ -71,26 +71,54 @@ const questions: Question[] = [
 
 const personalityResults = {
   Bitcoin: {
-    title: "Bitcoin: The Pioneer 🪙",
-    description: "You're the OG of the crypto world! Steady, reliable, and built to last. You value security and stability, and you're in it for the long haul. Like Bitcoin, you're the foundation everyone else builds upon.",
+    title: "Bitcoin: The Pioneer 🟠",
+    description: "You're reliable, steady, and a true trailblazer. You value security, stability, and long-term growth. People look up to you as a leader and trust your judgment.",
+    traits: {
+      bestSkill: "HODLing through market dips 💎",
+      favoriteActivity: "Reading whitepapers and staying informed 📚",
+      animalBestie: "A wise old turtle 🐢",
+      nightmareFuel: "Losing your cold wallet seed phrase 😱"
+    },
+    pickupLine: "Are you a Bitcoin maximalist? Because you're the only coin I want to HODL forever. I'm the original, and I'll always be your safe bet. 💰",
     emoji: "₿",
     gradient: "linear-gradient(135deg, #f7931a 0%, #ffa940 100%)",
   },
   Ethereum: {
-    title: "Ethereum: The Builder 🏗️",
-    description: "You're an innovator and a problem-solver! You love creating new things and collaborating with others to build the future. Like Ethereum, you're versatile, creative, and always pushing boundaries.",
+    title: "Ethereum: The Innovator 🟣",
+    description: "You're creative, adaptable, and always looking for the next big thing. You thrive in dynamic environments and love building or experimenting with new ideas.",
+    traits: {
+      bestSkill: "Deploying smart contracts like a pro 🔧",
+      favoriteActivity: "Exploring DeFi protocols and NFT marketplaces 🎨",
+      animalBestie: "A curious octopus 🐙",
+      nightmareFuel: "Gas fees during a bull run 💸"
+    },
+    pickupLine: "Let's make this relationship decentralized—no single point of failure. I'm versatile, and I can be anything you need me to be. We're proof of stake that love works! 💜",
     emoji: "⟠",
     gradient: "linear-gradient(135deg, #627eea 0%, #8c9eff 100%)",
   },
   Solana: {
-    title: "Solana: The Speedster ⚡",
-    description: "You're fast, bold, and always ahead of the curve! You thrive on competition and love chasing the next big opportunity. Like Solana, you're built for speed and efficiency.",
+    title: "Solana: The Speedster 🟢",
+    description: "You're fast, efficient, and always on the move. You love solving problems quickly and thrive in high-energy environments.",
+    traits: {
+      bestSkill: "Sniping NFTs before anyone else ⚡",
+      favoriteActivity: "Participating in fast-paced DeFi trading 📈",
+      animalBestie: "A sleek cheetah 🐆",
+      nightmareFuel: "Network congestion during a mint 🚦"
+    },
+    pickupLine: "They say I'm too fast, but baby, I'll slow down for you. I'm fast, scalable, and ready to take you places at 65,000 TPS! Want to experience high-speed romance? 🚀",
     emoji: "◎",
     gradient: "linear-gradient(135deg, #14f195 0%, #9945ff 100%)",
   },
   Dogecoin: {
-    title: "Dogecoin: The Social Butterfly 🐕",
-    description: "You're fun, friendly, and bring joy wherever you go! You value community and good vibes over everything else. Like Dogecoin, you remind everyone that crypto should be fun and accessible to all.",
+    title: "Dogecoin: The Meme King/Queen 🐕",
+    description: "You're fun, approachable, and the life of the party. You don't take things too seriously and love being part of a community.",
+    traits: {
+      bestSkill: "Making people laugh and spreading good vibes ✨",
+      favoriteActivity: "Sharing memes and tipping others in DOGE 🎁",
+      animalBestie: "A loyal Shiba Inu 🐕",
+      nightmareFuel: "People who don't get the joke 😅"
+    },
+    pickupLine: "Much wow. Very cute. So date? I'm not just a meme—I'm the whole vibe! To the moon and back? No, to your heart! 🌙💕",
     emoji: "Ð",
     gradient: "linear-gradient(135deg, #c2a633 0%, #f0d460 100%)",
   },
@@ -355,6 +383,32 @@ export default function Home() {
           </div>
           <h1 className={styles.resultTitle}>{personality.title}</h1>
           <p className={styles.resultDescription}>{personality.description}</p>
+          
+          {/* Personality Traits */}
+          <div className={styles.traitsContainer}>
+            <div className={styles.traitItem}>
+              <span className={styles.traitLabel}>Best Skill:</span>
+              <span className={styles.traitValue}>{personality.traits.bestSkill}</span>
+            </div>
+            <div className={styles.traitItem}>
+              <span className={styles.traitLabel}>Favorite Activity:</span>
+              <span className={styles.traitValue}>{personality.traits.favoriteActivity}</span>
+            </div>
+            <div className={styles.traitItem}>
+              <span className={styles.traitLabel}>Animal Bestie:</span>
+              <span className={styles.traitValue}>{personality.traits.animalBestie}</span>
+            </div>
+            <div className={styles.traitItem}>
+              <span className={styles.traitLabel}>Nightmare Fuel:</span>
+              <span className={styles.traitValue}>{personality.traits.nightmareFuel}</span>
+            </div>
+          </div>
+          
+          {/* Pickup Line */}
+          <div className={styles.pickupLine}>
+            <div className={styles.pickupLineIcon}>💘</div>
+            <p>{personality.pickupLine}</p>
+          </div>
           
           {/* Onchain Status */}
           <div className={styles.onchainStatus}>

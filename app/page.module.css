@@ -426,7 +426,108 @@
   font-size: 18px;
   color: #666;
   line-height: 1.6;
+  margin-bottom: 25px;
+}
+
+/* Personality Traits */
+.traitsContainer {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+  border-radius: 20px;
+  padding: 20px;
   margin-bottom: 20px;
+}
+
+.traitItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding: 8px;
+  border-left: 3px solid rgba(102, 126, 234, 0.3);
+  transition: all 0.3s ease;
+}
+
+.traitItem:hover {
+  background: rgba(102, 126, 234, 0.05);
+  border-left-color: #667eea;
+}
+
+.traitItem:last-child {
+  margin-bottom: 0;
+}
+
+.traitLabel {
+  font-weight: 700;
+  color: #667eea;
+  min-width: 140px;
+  font-size: 14px;
+}
+
+.traitValue {
+  color: #333;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Pickup Line */
+.pickupLine {
+  background: linear-gradient(135deg, rgba(240, 147, 251, 0.1) 0%, rgba(245, 87, 108, 0.1) 100%);
+  border: 2px solid rgba(240, 147, 251, 0.3);
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 25px;
+  position: relative;
+  overflow: hidden;
+}
+
+.pickupLine::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(240, 147, 251, 0.1) 0%, transparent 70%);
+  animation: pulse 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.pickupLineIcon {
+  font-size: 32px;
+  text-align: center;
+  margin-bottom: 10px;
+  animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  10%, 30% {
+    transform: scale(1.1);
+  }
+  20%, 40% {
+    transform: scale(0.9);
+  }
+}
+
+.pickupLine p {
+  font-size: 16px;
+  font-style: italic;
+  color: #333;
+  line-height: 1.6;
+  margin: 0;
+  text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
 /* Onchain Status */
@@ -624,6 +725,37 @@
 
   .resultDescription {
     font-size: 16px;
+  }
+
+  .traitsContainer {
+    padding: 15px;
+  }
+
+  .traitItem {
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px;
+  }
+
+  .traitLabel {
+    min-width: auto;
+    font-size: 13px;
+  }
+
+  .traitValue {
+    font-size: 13px;
+  }
+
+  .pickupLine {
+    padding: 15px;
+  }
+
+  .pickupLineIcon {
+    font-size: 28px;
+  }
+
+  .pickupLine p {
+    font-size: 14px;
   }
 
   .cryptoIcons {
