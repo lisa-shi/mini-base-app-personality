@@ -25,7 +25,7 @@ export const minikitConfig = {
     homeUrl: ROOT_URL,
     webhookUrl: `${ROOT_URL}/api/webhook`,
     primaryCategory: "social",
-    tags: ["quiz", "nft", "blockchain", "personality", "crypto", "web3"],
+    tags: ["quiz", "personality", "crypto"],
     heroImageUrl: `${ROOT_URL}/hero.png`, 
     tagline: "Find Your Crypto Spirit Animal",
     ogTitle: "Crypto Personality Quiz - Discover Your Crypto Identity",
