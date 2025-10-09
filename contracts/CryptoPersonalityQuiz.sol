@@ -3,15 +3,13 @@ pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
 
 /**
  * @title CryptoPersonalityQuiz
  * @dev Store quiz results onchain and mint personality NFTs
  */
 contract CryptoPersonalityQuiz is ERC721, Ownable {
-    using Counters for Counters.Counter;
-    Counters.Counter private _tokenIds;
+    uint256 private _tokenIds;
 
     // Personality types
     enum Personality { Bitcoin, Ethereum, Solana, Dogecoin }
@@ -70,8 +68,8 @@ contract CryptoPersonalityQuiz is ERC721, Ownable {
      * @dev Mint a personality NFT based on quiz result
      */
     function mintPersonalityNFT(Personality personality, string memory tokenURI) external returns (uint256) {
-        _tokenIds.increment();
-        uint256 newTokenId = _tokenIds.current();
+        _tokenIds++;
+        uint256 newTokenId = _tokenIds;
 
         _safeMint(msg.sender, newTokenId);
         tokenPersonality[newTokenId] = personality;
@@ -129,7 +127,7 @@ contract CryptoPersonalityQuiz is ERC721, Ownable {
      * @dev Get total NFTs minted
      */
     function getTotalNFTsMinted() external view returns (uint256) {
-        return _tokenIds.current();
+        return _tokenIds;
     }
 }
 
