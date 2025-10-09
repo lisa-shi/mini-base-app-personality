@@ -6,7 +6,7 @@ type Personality = "Bitcoin" | "Ethereum" | "Solana" | "Dogecoin";
 
 export function useQuizContract() {
   const { address } = useAccount();
-  const { writeContract, data: hash, isPending, isError, error } = useWriteContract();
+  const { writeContractAsync, data: hash, isPending, isError, error } = useWriteContract();
   const [lastTxHash, setLastTxHash] = useState<`0x${string}` | undefined>();
 
   const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({
@@ -27,7 +27,7 @@ export function useQuizContract() {
     try {
       const personalityEnum = PersonalityEnum[personality];
       
-      const txHash = await writeContract({
+      const txHash = await writeContractAsync({
         address: CONTRACT_ADDRESS as `0x${string}`,
         abi: CONTRACT_ABI,
         functionName: "storeQuizResult",
@@ -40,7 +40,8 @@ export function useQuizContract() {
         ],
       });
 
-      setLastTxHash(hash);
+      console.log("Transaction hash:", txHash);
+      setLastTxHash(txHash);
       return txHash;
     } catch (err) {
       console.error("Error storing quiz result:", err);
@@ -60,14 +61,15 @@ export function useQuizContract() {
       const personalityEnum = PersonalityEnum[personality];
       const tokenURI = NFT_METADATA_URIS[personality];
 
-      const txHash = await writeContract({
+      const txHash = await writeContractAsync({
         address: CONTRACT_ADDRESS as `0x${string}`,
         abi: CONTRACT_ABI,
         functionName: "mintPersonalityNFT",
         args: [personalityEnum, tokenURI],
       });
 
-      setLastTxHash(hash);
+      console.log("NFT minted, tx hash:", txHash);
+      setLastTxHash(txHash);
       return txHash;
     } catch (err) {
       console.error("Error minting NFT:", err);
