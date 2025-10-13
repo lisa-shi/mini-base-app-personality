@@ -6,7 +6,7 @@ type Personality = "Bitcoin" | "Ethereum" | "Solana" | "Dogecoin";
 
 export function useQuizContract() {
   const { address } = useAccount();
-  const { writeContractAsync, isPending, isError, error } = useWriteContract();
+  const { writeContract, writeContractAsync, data: txData, isPending, isError, error } = useWriteContract();
   const [lastTxHash, setLastTxHash] = useState<`0x${string}` | undefined>();
 
   const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({
@@ -36,18 +36,58 @@ export function useQuizContract() {
         userAddress: address,
       });
 
-      const txHash = await writeContractAsync({
-        address: CONTRACT_ADDRESS as `0x${string}`,
-        abi: CONTRACT_ABI,
-        functionName: "storeQuizResult",
-        args: [
-          personalityEnum,
-          BigInt(scores.Bitcoin),
-          BigInt(scores.Ethereum),
-          BigInt(scores.Solana),
-          BigInt(scores.Dogecoin),
-        ],
-      });
+      // Try using writeContractAsync first, but provide fallback
+      let txHash: `0x${string}`;
+      
+      try {
+        console.log("Attempting writeContractAsync...");
+        txHash = await writeContractAsync({
+          address: CONTRACT_ADDRESS as `0x${string}`,
+          abi: CONTRACT_ABI,
+          functionName: "storeQuizResult",
+          args: [
+            personalityEnum,
+            BigInt(scores.Bitcoin),
+            BigInt(scores.Ethereum),
+            BigInt(scores.Solana),
+            BigInt(scores.Dogecoin),
+          ],
+        });
+      } catch (asyncError) {
+        console.warn("writeContractAsync failed, trying writeContract:", asyncError);
+        
+        // Fallback to writeContract (non-async version)
+        writeContract({
+          address: CONTRACT_ADDRESS as `0x${string}`,
+          abi: CONTRACT_ABI,
+          functionName: "storeQuizResult",
+          args: [
+            personalityEnum,
+            BigInt(scores.Bitcoin),
+            BigInt(scores.Ethereum),
+            BigInt(scores.Solana),
+            BigInt(scores.Dogecoin),
+          ],
+        });
+        
+        // Wait for txData to be populated
+        await new Promise<void>((resolve) => {
+          const checkInterval = setInterval(() => {
+            if (txData) {
+              clearInterval(checkInterval);
+              resolve();
+            }
+          }, 100);
+          
+          // Timeout after 30 seconds
+          setTimeout(() => {
+            clearInterval(checkInterval);
+            throw new Error("Transaction submission timeout");
+          }, 30000);
+        });
+        
+        txHash = txData as `0x${string}`;
+      }
 
       console.log("✅ Quiz result stored successfully!", {
         transactionHash: txHash,
@@ -88,12 +128,46 @@ export function useQuizContract() {
         userAddress: address,
       });
 
-      const txHash = await writeContractAsync({
-        address: CONTRACT_ADDRESS as `0x${string}`,
-        abi: CONTRACT_ABI,
-        functionName: "mintPersonalityNFT",
-        args: [personalityEnum, tokenURI],
-      });
+      // Try using writeContractAsync first, but provide fallback
+      let txHash: `0x${string}`;
+      
+      try {
+        console.log("Attempting writeContractAsync for NFT mint...");
+        txHash = await writeContractAsync({
+          address: CONTRACT_ADDRESS as `0x${string}`,
+          abi: CONTRACT_ABI,
+          functionName: "mintPersonalityNFT",
+          args: [personalityEnum, tokenURI],
+        });
+      } catch (asyncError) {
+        console.warn("writeContractAsync failed for NFT, trying writeContract:", asyncError);
+        
+        // Fallback to writeContract (non-async version)
+        writeContract({
+          address: CONTRACT_ADDRESS as `0x${string}`,
+          abi: CONTRACT_ABI,
+          functionName: "mintPersonalityNFT",
+          args: [personalityEnum, tokenURI],
+        });
+        
+        // Wait for txData to be populated
+        await new Promise<void>((resolve) => {
+          const checkInterval = setInterval(() => {
+            if (txData) {
+              clearInterval(checkInterval);
+              resolve();
+            }
+          }, 100);
+          
+          // Timeout after 30 seconds
+          setTimeout(() => {
+            clearInterval(checkInterval);
+            throw new Error("Transaction submission timeout");
+          }, 30000);
+        });
+        
+        txHash = txData as `0x${string}`;
+      }
 
       console.log("✅ NFT minted successfully!", {
         transactionHash: txHash,

@@ -5,6 +5,7 @@ import { useAccount, useConnect } from "wagmi";
 import styles from "./page.module.css";
 import { useQuizContract } from "../lib/useQuizContract";
 import { useLeaderboard } from "../lib/useLeaderboard";
+import { CONTRACT_ADDRESS } from "../lib/contractConfig";
 
 type Personality = "Bitcoin" | "Ethereum" | "Solana" | "Dogecoin";
 
@@ -194,14 +195,19 @@ export default function Home() {
         setGameState("result");
         
         // Automatically save result onchain
-        handleSaveResultOnchain(finalResult, newScores);
+        // Don't await so UI loads immediately, errors will be caught in handleSaveResultOnchain
+        handleSaveResultOnchain(finalResult, newScores).catch((err) => {
+          console.error("Failed to save quiz result:", err);
+        });
       }
     }, 600);
   };
 
   const handleSaveResultOnchain = async (personality: Personality, quizScores: Record<Personality, number>) => {
     if (!address) {
-      console.warn("⚠️ Cannot save result - wallet not connected");
+      console.error("❌ Cannot save result - wallet not connected");
+      console.error("User must connect wallet to save results to blockchain");
+      alert("⚠️ Wallet not connected!\n\nYou need to connect your wallet to save your quiz results on the blockchain.\n\nYou can still view your results, but they won't be stored permanently.");
       return;
     }
     
@@ -215,8 +221,12 @@ export default function Home() {
         timestamp: new Date().toISOString()
       });
       
+      console.log("🔗 About to call storeQuizResult with contract:", CONTRACT_ADDRESS);
+      
       // Store quiz result onchain
       const txHash = await storeQuizResult(personality, quizScores);
+      
+      console.log("✅ storeQuizResult returned successfully with hash:", txHash);
       
       console.log("✅ Quiz result transaction submitted!", {
         transactionHash: txHash,
