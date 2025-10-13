@@ -7,6 +7,15 @@ import { useQuizContract } from "../lib/useQuizContract";
 import { useLeaderboard } from "../lib/useLeaderboard";
 import { CONTRACT_ADDRESS } from "../lib/contractConfig";
 
+// Declare window.ethereum for TypeScript
+declare global {
+  interface Window {
+    ethereum?: {
+      request: (args: { method: string; params?: Array<any> }) => Promise<any>;
+    };
+  }
+}
+
 type Personality = "Bitcoin" | "Ethereum" | "Solana" | "Dogecoin";
 
 interface Question {
@@ -170,16 +179,36 @@ export default function Home() {
     }
   }, [setFrameReady, isFrameReady, address]);
   
-  // Monitor wallet connection
+  // Monitor wallet connection and network
   useEffect(() => {
     if (address) {
       console.log("✅ Wallet connected:", address);
+      
+      // Check if we're on the correct network
+      if (typeof window !== 'undefined' && window.ethereum) {
+        window.ethereum.request({ method: 'eth_chainId' }).then((chainId: string) => {
+          const chainIdDecimal = parseInt(chainId, 16);
+          console.log("🌐 Current network chain ID:", chainIdDecimal);
+          
+          if (chainIdDecimal !== 84532) {
+            console.warn("⚠️ WRONG NETWORK! Please switch to Base Sepolia (Chain ID: 84532)");
+            console.warn(`   Current network: ${chainIdDecimal === 8453 ? 'Base Mainnet' : `Chain ID ${chainIdDecimal}`}`);
+            
+            // Alert user to switch networks
+            alert(`⚠️ WRONG NETWORK!\n\nYou're on ${chainIdDecimal === 8453 ? 'Base Mainnet' : `Chain ID ${chainIdDecimal}`}\n\nPlease switch to Base Sepolia (testnet) in your wallet.\n\nThe contract is deployed on Base Sepolia, NOT mainnet.`);
+          } else {
+            console.log("✅ Correct network: Base Sepolia");
+          }
+        }).catch((err: Error) => {
+          console.error("Failed to check network:", err);
+        });
+      }
     } else {
       console.log("⚠️ Wallet not connected yet. Waiting for MiniKit auto-connect...");
     }
   }, [address]);
  
-  const handleConnectWallet = () => {
+  const handleConnectWallet = async () => {
     // Connect wallet for web/local development (not MiniKit)
     if (connectors.length > 0) {
       console.log("🔗 Available connectors:", connectors.map(c => c.name));
@@ -192,7 +221,21 @@ export default function Home() {
         connectors[0];
       
       console.log("🔗 Connecting with:", preferredConnector.name);
-      connect({ connector: preferredConnector });
+      console.log("🌐 Required network: Base Sepolia (Chain ID: 84532)");
+      
+      try {
+        await connect({ 
+          connector: preferredConnector,
+          chainId: 84532, // Base Sepolia
+        });
+        
+        console.log("✅ Wallet connection initiated. Please switch to Base Sepolia if prompted.");
+      } catch (error) {
+        console.error("❌ Connection failed:", error);
+        if (error instanceof Error) {
+          alert(`Failed to connect wallet: ${error.message}\n\nMake sure you approve the connection and switch to Base Sepolia network when prompted.`);
+        }
+      }
     } else {
       console.error("❌ No wallet connectors available");
       alert("No wallet connectors available. Please install a wallet extension like MetaMask or Coinbase Wallet.");
