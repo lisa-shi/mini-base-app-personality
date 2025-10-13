@@ -134,7 +134,7 @@ export default function Home() {
   const { address } = useAccount();
   const { connect, connectors } = useConnect();
   const { storeQuizResult, mintPersonalityNFT } = useQuizContract();
-  const { leaderboardData, refetch: refetchLeaderboard } = useLeaderboard();
+  const { leaderboardData, refetch: refetchLeaderboard, isLoading: isLoadingLeaderboard } = useLeaderboard();
   
   const [gameState, setGameState] = useState<"welcome" | "quiz" | "result">("welcome");
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -150,6 +150,7 @@ export default function Home() {
   const [isSavingResult, setIsSavingResult] = useState(false);
   const [resultSaved, setResultSaved] = useState(false);
   const [isLocalDev, setIsLocalDev] = useState(false);
+  const [isRefreshingLeaderboard, setIsRefreshingLeaderboard] = useState(false);
 
   useEffect(() => {
     // Check if we're in local development (not in MiniKit)
@@ -229,10 +230,13 @@ export default function Home() {
       
       // Refresh leaderboard to show updated counts
       // Wait a moment for the transaction to be processed
-      setTimeout(() => {
+      setIsRefreshingLeaderboard(true);
+      setTimeout(async () => {
         console.log("🔄 Refreshing leaderboard data...");
-        refetchLeaderboard();
-      }, 2000);
+        await refetchLeaderboard();
+        setIsRefreshingLeaderboard(false);
+        console.log("✅ Leaderboard refreshed with new data!");
+      }, 3000);
       
     } catch (error) {
       console.error("❌ Error saving result to blockchain:", error);
@@ -507,7 +511,7 @@ export default function Home() {
           {leaderboardData.total > 0 ? (
             <div className={styles.leaderboard}>
               <h3 className={styles.leaderboardTitle}>
-                🏆 Global Personality Rankings
+                🏆 Global Personality Rankings {isRefreshingLeaderboard && <span style={{ fontSize: '0.8em', opacity: 0.7 }}>🔄 Updating...</span>}
               </h3>
               <p className={styles.leaderboardSubtitle}>
                 {leaderboardData.total} {leaderboardData.total === 1 ? 'person has' : 'people have'} taken the quiz
@@ -569,6 +573,11 @@ export default function Home() {
               <div className={styles.statusSaving}>
                 <span className={styles.spinner}>⏳</span>
                 <span>Saving result onchain...</span>
+              </div>
+            ) : resultSaved && isRefreshingLeaderboard ? (
+              <div className={styles.statusSaving}>
+                <span className={styles.spinner}>🔄</span>
+                <span>Updating leaderboard...</span>
               </div>
             ) : resultSaved ? (
               <div className={styles.statusSaved}>
