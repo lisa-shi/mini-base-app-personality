@@ -7,15 +7,6 @@ import { useQuizContract } from "../lib/useQuizContract";
 import { useLeaderboard } from "../lib/useLeaderboard";
 import { CONTRACT_ADDRESS } from "../lib/contractConfig";
 
-// Declare window.ethereum for TypeScript
-declare global {
-  interface Window {
-    ethereum?: {
-      request: (args: { method: string; params?: Array<any> }) => Promise<any>;
-    };
-  }
-}
-
 type Personality = "Bitcoin" | "Ethereum" | "Solana" | "Dogecoin";
 
 interface Question {
@@ -185,8 +176,9 @@ export default function Home() {
       console.log("✅ Wallet connected:", address);
       
       // Check if we're on the correct network
-      if (typeof window !== 'undefined' && window.ethereum) {
-        window.ethereum.request({ method: 'eth_chainId' }).then((chainId: string) => {
+      if (typeof window !== 'undefined' && (window as { ethereum?: { request: (args: { method: string }) => Promise<string> } }).ethereum) {
+        const ethereum = (window as { ethereum: { request: (args: { method: string }) => Promise<string> } }).ethereum;
+        ethereum.request({ method: 'eth_chainId' }).then((chainId: string) => {
           const chainIdDecimal = parseInt(chainId, 16);
           console.log("🌐 Current network chain ID:", chainIdDecimal);
           
