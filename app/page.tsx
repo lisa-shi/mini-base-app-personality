@@ -155,17 +155,47 @@ export default function Home() {
 
   useEffect(() => {
     // Check if we're in local development (not in MiniKit)
-    setIsLocalDev(typeof window !== 'undefined' && window.location.hostname === 'localhost');
+    const isDev = typeof window !== 'undefined' && window.location.hostname === 'localhost';
+    setIsLocalDev(isDev);
+    
+    console.log("🔍 Environment check:", {
+      isLocalDev: isDev,
+      hostname: typeof window !== 'undefined' ? window.location.hostname : 'unknown',
+      isFrameReady,
+      walletAddress: address,
+    });
     
     if (!isFrameReady) {
       setFrameReady();
     }
-  }, [setFrameReady, isFrameReady]);
+  }, [setFrameReady, isFrameReady, address]);
+  
+  // Monitor wallet connection
+  useEffect(() => {
+    if (address) {
+      console.log("✅ Wallet connected:", address);
+    } else {
+      console.log("⚠️ Wallet not connected yet. Waiting for MiniKit auto-connect...");
+    }
+  }, [address]);
  
   const handleConnectWallet = () => {
-    // For local development, connect with first available connector
-    if (isLocalDev && connectors.length > 0) {
-      connect({ connector: connectors[0] });
+    // Connect wallet for web/local development (not MiniKit)
+    if (connectors.length > 0) {
+      console.log("🔗 Available connectors:", connectors.map(c => c.name));
+      
+      // Try to find MetaMask or Coinbase Wallet, otherwise use first available
+      const preferredConnector = 
+        connectors.find(c => c.name.toLowerCase().includes('metamask')) ||
+        connectors.find(c => c.name.toLowerCase().includes('coinbase')) ||
+        connectors.find(c => c.name.toLowerCase().includes('walletconnect')) ||
+        connectors[0];
+      
+      console.log("🔗 Connecting with:", preferredConnector.name);
+      connect({ connector: preferredConnector });
+    } else {
+      console.error("❌ No wallet connectors available");
+      alert("No wallet connectors available. Please install a wallet extension like MetaMask or Coinbase Wallet.");
     }
   };
 
@@ -343,18 +373,23 @@ export default function Home() {
               {isLocalDev ? (
                 <p>Connect your wallet to continue</p>
               ) : (
-                <p>Wallet will auto-connect via MiniKit</p>
+                <>
+                  <p>Wallet will auto-connect via MiniKit</p>
+                  <p style={{ fontSize: '0.85em', marginTop: '0.5rem', opacity: 0.8 }}>
+                    If on web, click connect button below
+                  </p>
+                </>
               )}
             </div>
           )}
           
-          {/* Show connect button for local development */}
-          {!address && isLocalDev ? (
+          {/* Show connect button when wallet not connected */}
+          {!address ? (
             <button 
               onClick={handleConnectWallet} 
               className={styles.connectButton}
             >
-              Connect Wallet 🔗
+              {isLocalDev ? 'Connect Wallet 🔗' : 'Manual Connect (Web Only) 🔗'}
             </button>
           ) : null}
           
