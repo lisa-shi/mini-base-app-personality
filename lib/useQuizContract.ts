@@ -5,12 +5,19 @@ import { useState } from "react";
 type Personality = "Bitcoin" | "Ethereum" | "Solana" | "Dogecoin";
 
 export function useQuizContract() {
-  const { address } = useAccount();
+  const { address, isConnected, connector } = useAccount();
   const { writeContract, writeContractAsync, data: txData, isPending, isError, error } = useWriteContract();
   const [lastTxHash, setLastTxHash] = useState<`0x${string}` | undefined>();
 
   const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({
     hash: lastTxHash,
+  });
+
+  console.log("📱 useQuizContract - Account Status:", {
+    address,
+    isConnected,
+    connectorName: connector?.name,
+    contractAddress: CONTRACT_ADDRESS,
   });
 
   /**
@@ -25,22 +32,29 @@ export function useQuizContract() {
       throw new Error("Wallet not connected");
     }
 
+    if (!isConnected) {
+      console.error("❌ Wallet shows as not connected");
+      throw new Error("Wallet not properly connected");
+    }
+
     try {
       const personalityEnum = PersonalityEnum[personality];
       
       console.log("🔗 Calling storeQuizResult on contract:", {
-        address: CONTRACT_ADDRESS,
+        contractAddress: CONTRACT_ADDRESS,
         personality,
         personalityEnum,
         scores,
         userAddress: address,
+        connectorName: connector?.name,
+        isConnected,
       });
 
       // Try using writeContractAsync first, but provide fallback
       let txHash: `0x${string}`;
       
       try {
-        console.log("Attempting writeContractAsync...");
+        console.log("Attempting writeContractAsync with account:", address);
         txHash = await writeContractAsync({
           address: CONTRACT_ADDRESS as `0x${string}`,
           abi: CONTRACT_ABI,
@@ -52,6 +66,7 @@ export function useQuizContract() {
             BigInt(scores.Solana),
             BigInt(scores.Dogecoin),
           ],
+          account: address, // Explicitly pass the account
         });
       } catch (asyncError) {
         console.warn("writeContractAsync failed, trying writeContract:", asyncError);
@@ -68,6 +83,7 @@ export function useQuizContract() {
             BigInt(scores.Solana),
             BigInt(scores.Dogecoin),
           ],
+          account: address, // Explicitly pass the account
         });
         
         // Wait for txData to be populated
@@ -132,12 +148,13 @@ export function useQuizContract() {
       let txHash: `0x${string}`;
       
       try {
-        console.log("Attempting writeContractAsync for NFT mint...");
+        console.log("Attempting writeContractAsync for NFT mint with account:", address);
         txHash = await writeContractAsync({
           address: CONTRACT_ADDRESS as `0x${string}`,
           abi: CONTRACT_ABI,
           functionName: "mintPersonalityNFT",
           args: [personalityEnum, tokenURI],
+          account: address, // Explicitly pass the account
         });
       } catch (asyncError) {
         console.warn("writeContractAsync failed for NFT, trying writeContract:", asyncError);
@@ -148,6 +165,7 @@ export function useQuizContract() {
           abi: CONTRACT_ABI,
           functionName: "mintPersonalityNFT",
           args: [personalityEnum, tokenURI],
+          account: address, // Explicitly pass the account
         });
         
         // Wait for txData to be populated
