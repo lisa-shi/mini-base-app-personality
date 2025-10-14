@@ -438,43 +438,55 @@ export default function Home() {
                 {leaderboardData.total} {leaderboardData.total === 1 ? 'person has' : 'people have'} discovered their crypto personality
               </p>
               <div className={styles.leaderboardGrid}>
-                {(['Bitcoin', 'Ethereum', 'Solana', 'Dogecoin'] as Personality[]).map((personalityType) => {
-                  const data = leaderboardData[personalityType];
-                  return (
-                    <div 
-                      key={personalityType} 
-                      className={styles.leaderboardItem}
-                    >
-                      <div className={styles.leaderboardHeader}>
-                        <img 
-                          src={personalityResults[personalityType].avatar} 
-                          alt={personalityType}
-                          className={styles.leaderboardAvatar}
-                        />
-                        <div className={styles.leaderboardInfo}>
-                          <div className={styles.leaderboardName}>
-                            {personalityType}
-                          </div>
-                          <div className={styles.leaderboardCount}>
-                            {data.count} {data.count === 1 ? 'person' : 'people'}
+                {(() => {
+                  // Calculate max count for scaling bars
+                  const maxCount = Math.max(
+                    leaderboardData.Bitcoin.count,
+                    leaderboardData.Ethereum.count,
+                    leaderboardData.Solana.count,
+                    leaderboardData.Dogecoin.count
+                  );
+                  
+                  return (['Bitcoin', 'Ethereum', 'Solana', 'Dogecoin'] as Personality[]).map((personalityType) => {
+                    const data = leaderboardData[personalityType];
+                    const barWidth = maxCount > 0 ? (data.count / maxCount) * 100 : 0;
+                    
+                    return (
+                      <div 
+                        key={personalityType} 
+                        className={styles.leaderboardItem}
+                      >
+                        <div className={styles.leaderboardHeader}>
+                          <img 
+                            src={personalityResults[personalityType].avatar} 
+                            alt={personalityType}
+                            className={styles.leaderboardAvatar}
+                          />
+                          <div className={styles.leaderboardInfo}>
+                            <div className={styles.leaderboardName}>
+                              {personalityType}
+                            </div>
+                            <div className={styles.leaderboardCount}>
+                              {data.count} {data.count === 1 ? 'person' : 'people'}
+                            </div>
                           </div>
                         </div>
+                        <div className={styles.leaderboardBarContainer}>
+                          <div 
+                            className={styles.leaderboardBar}
+                            style={{
+                              width: `${barWidth}%`,
+                              background: personalityResults[personalityType].gradient
+                            }}
+                          />
+                        </div>
+                        <div className={styles.leaderboardPercentage}>
+                          {data.percentage.toFixed(1)}%
+                        </div>
                       </div>
-                      <div className={styles.leaderboardBarContainer}>
-                        <div 
-                          className={styles.leaderboardBar}
-                          style={{
-                            width: `${data.percentage}%`,
-                            background: personalityResults[personalityType].gradient
-                          }}
-                        />
-                      </div>
-                      <div className={styles.leaderboardPercentage}>
-                        {data.percentage.toFixed(1)}%
-                      </div>
-                    </div>
-                  );
-                })}
+                    );
+                  });
+                })()}
               </div>
             </div>
           ) : (
@@ -597,45 +609,57 @@ export default function Home() {
                 {leaderboardData.total} {leaderboardData.total === 1 ? 'person has' : 'people have'} taken the quiz
               </p>
               <div className={styles.leaderboardGrid}>
-                {(['Bitcoin', 'Ethereum', 'Solana', 'Dogecoin'] as Personality[]).map((personalityType) => {
-                  const data = leaderboardData[personalityType];
-                  const isCurrentPersonality = personalityType === result;
-                  return (
-                    <div 
-                      key={personalityType} 
-                      className={`${styles.leaderboardItem} ${isCurrentPersonality ? styles.leaderboardItemActive : ''}`}
-                    >
-                      <div className={styles.leaderboardHeader}>
-                        <img 
-                          src={personalityResults[personalityType].avatar} 
-                          alt={personalityType}
-                          className={styles.leaderboardAvatar}
-                        />
-                        <div className={styles.leaderboardInfo}>
-                          <div className={styles.leaderboardName}>
-                            {personalityType}
-                            {isCurrentPersonality && <span className={styles.youBadge}>YOU</span>}
-                          </div>
-                          <div className={styles.leaderboardCount}>
-                            {data.count} {data.count === 1 ? 'person' : 'people'}
+                {(() => {
+                  // Calculate max count for scaling bars
+                  const maxCount = Math.max(
+                    leaderboardData.Bitcoin.count,
+                    leaderboardData.Ethereum.count,
+                    leaderboardData.Solana.count,
+                    leaderboardData.Dogecoin.count
+                  );
+                  
+                  return (['Bitcoin', 'Ethereum', 'Solana', 'Dogecoin'] as Personality[]).map((personalityType) => {
+                    const data = leaderboardData[personalityType];
+                    const isCurrentPersonality = personalityType === result;
+                    const barWidth = maxCount > 0 ? (data.count / maxCount) * 100 : 0;
+                    
+                    return (
+                      <div 
+                        key={personalityType} 
+                        className={`${styles.leaderboardItem} ${isCurrentPersonality ? styles.leaderboardItemActive : ''}`}
+                      >
+                        <div className={styles.leaderboardHeader}>
+                          <img 
+                            src={personalityResults[personalityType].avatar} 
+                            alt={personalityType}
+                            className={styles.leaderboardAvatar}
+                          />
+                          <div className={styles.leaderboardInfo}>
+                            <div className={styles.leaderboardName}>
+                              {personalityType}
+                              {isCurrentPersonality && <span className={styles.youBadge}>YOU</span>}
+                            </div>
+                            <div className={styles.leaderboardCount}>
+                              {data.count} {data.count === 1 ? 'person' : 'people'}
+                            </div>
                           </div>
                         </div>
+                        <div className={styles.leaderboardBarContainer}>
+                          <div 
+                            className={styles.leaderboardBar}
+                            style={{
+                              width: `${barWidth}%`,
+                              background: personalityResults[personalityType].gradient
+                            }}
+                          />
+                        </div>
+                        <div className={styles.leaderboardPercentage}>
+                          {data.percentage.toFixed(1)}%
+                        </div>
                       </div>
-                      <div className={styles.leaderboardBarContainer}>
-                        <div 
-                          className={styles.leaderboardBar}
-                          style={{
-                            width: `${data.percentage}%`,
-                            background: personalityResults[personalityType].gradient
-                          }}
-                        />
-                      </div>
-                      <div className={styles.leaderboardPercentage}>
-                        {data.percentage.toFixed(1)}%
-                      </div>
-                    </div>
-                  );
-                })}
+                    );
+                  });
+                })()}
               </div>
             </div>
           ) : (
