@@ -1,12 +1,14 @@
-import { useAccount, useWriteContract, useWaitForTransactionReceipt } from "wagmi";
+import { useAccount, useWriteContract, useWaitForTransactionReceipt, useSwitchChain } from "wagmi";
 import { CONTRACT_ADDRESS, CONTRACT_ABI, PersonalityEnum, NFT_METADATA_URIS } from "./contractConfig";
 import { useState } from "react";
+import { baseSepolia } from "wagmi/chains";
 
 type Personality = "Bitcoin" | "Ethereum" | "Solana" | "Dogecoin";
 
 export function useQuizContract() {
-  const { address, isConnected, connector } = useAccount();
+  const { address, isConnected, connector, chain, chainId } = useAccount();
   const { writeContract, writeContractAsync, data: txData, isPending, isError, error } = useWriteContract();
+  const { switchChain, switchChainAsync } = useSwitchChain();
   const [lastTxHash, setLastTxHash] = useState<`0x${string}` | undefined>();
 
   const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({
@@ -17,6 +19,10 @@ export function useQuizContract() {
     address,
     isConnected,
     connectorName: connector?.name,
+    currentChainId: chainId,
+    currentChainName: chain?.name,
+    requiredChainId: baseSepolia.id,
+    requiredChainName: baseSepolia.name,
     contractAddress: CONTRACT_ADDRESS,
   });
 
@@ -37,6 +43,24 @@ export function useQuizContract() {
       throw new Error("Wallet not properly connected");
     }
 
+    // CRITICAL: Ensure we're on Base Sepolia before writing
+    if (chainId !== baseSepolia.id) {
+      console.error(`❌ WRONG NETWORK! Current: ${chainId} (${chain?.name}), Required: ${baseSepolia.id} (${baseSepolia.name})`);
+      console.log("🔄 Attempting to switch to Base Sepolia...");
+      
+      try {
+        if (switchChainAsync) {
+          await switchChainAsync({ chainId: baseSepolia.id });
+          console.log("✅ Successfully switched to Base Sepolia");
+        } else {
+          throw new Error("Chain switching not available");
+        }
+      } catch (switchError) {
+        console.error("❌ Failed to switch network:", switchError);
+        throw new Error(`Please switch to Base Sepolia (Chain ID: ${baseSepolia.id}) in your wallet. Currently on Chain ID: ${chainId}`);
+      }
+    }
+
     try {
       const personalityEnum = PersonalityEnum[personality];
       
@@ -46,6 +70,9 @@ export function useQuizContract() {
         personalityEnum,
         scores,
         userAddress: address,
+        chainId,
+        chainName: chain?.name,
+        requiredChain: `${baseSepolia.name} (${baseSepolia.id})`,
         connectorName: connector?.name,
         isConnected,
       });
@@ -67,6 +94,7 @@ export function useQuizContract() {
             BigInt(scores.Dogecoin),
           ],
           account: address, // Explicitly pass the account
+          chainId: baseSepolia.id, // Force Base Sepolia
         });
       } catch (asyncError) {
         console.warn("writeContractAsync failed, trying writeContract:", asyncError);
@@ -84,6 +112,7 @@ export function useQuizContract() {
             BigInt(scores.Dogecoin),
           ],
           account: address, // Explicitly pass the account
+          chainId: baseSepolia.id, // Force Base Sepolia
         });
         
         // Wait for txData to be populated
@@ -132,6 +161,23 @@ export function useQuizContract() {
       throw new Error("Wallet not connected");
     }
 
+    // CRITICAL: Ensure we're on Base Sepolia before minting
+    if (chainId !== baseSepolia.id) {
+      console.error(`❌ WRONG NETWORK for NFT mint! Current: ${chainId}, Required: ${baseSepolia.id}`);
+      
+      try {
+        if (switchChainAsync) {
+          await switchChainAsync({ chainId: baseSepolia.id });
+          console.log("✅ Successfully switched to Base Sepolia for NFT mint");
+        } else {
+          throw new Error("Chain switching not available");
+        }
+      } catch (switchError) {
+        console.error("❌ Failed to switch network:", switchError);
+        throw new Error(`Please switch to Base Sepolia (Chain ID: ${baseSepolia.id}) in your wallet`);
+      }
+    }
+
     try {
       const personalityEnum = PersonalityEnum[personality];
       const tokenURI = NFT_METADATA_URIS[personality];
@@ -155,6 +201,7 @@ export function useQuizContract() {
           functionName: "mintPersonalityNFT",
           args: [personalityEnum, tokenURI],
           account: address, // Explicitly pass the account
+          chainId: baseSepolia.id, // Force Base Sepolia
         });
       } catch (asyncError) {
         console.warn("writeContractAsync failed for NFT, trying writeContract:", asyncError);
@@ -166,6 +213,7 @@ export function useQuizContract() {
           functionName: "mintPersonalityNFT",
           args: [personalityEnum, tokenURI],
           account: address, // Explicitly pass the account
+          chainId: baseSepolia.id, // Force Base Sepolia
         });
         
         // Wait for txData to be populated
